@@ -1,34 +1,37 @@
 import React, {useState} from 'react';
 import './App.css';
-import {NewComponent} from "./NewComponent";
+import {FullIntup} from "./components/FullIntup";
+import {Input} from "./components/Input";
+import {Button} from "./components/Button";
 
-export type FiltereType = 'All' | 'Dollar' | 'Rubl'
+
 function App() {
-    const [money, setMoney] = useState([
-        {banknots: 'Dollar', nominal: 100, number: ' a1234567890'},
-        {banknots: 'Dollar', nominal: 50, number: ' z1234567890'},
-        {banknots: 'Rubl', nominal: 100, number: ' w1234567890'},
-        {banknots: 'Dollar', nominal: 100, number: ' e1234567890'},
-        {banknots: 'Dollar', nominal: 50, number: ' c1234567890'},
-        {banknots: 'Rubl', nominal: 100, number: ' r1234567890'},
-        {banknots: 'Dollar', nominal: 50, number: ' x1234567890'},
-        {banknots: 'Rubl', nominal: 50, number: ' v1234567890'},
+    let [message, setMessage] = useState([
+        {message: 'message1'},
+        {message: 'message2'},
+        {message: 'message3'},
+        {message: 'message3'},
     ])
-    const [filter, setFilter] = useState<FiltereType>('All')
-    let currentMoney = money;
-    if (filter==='Dollar'){
-        currentMoney = money.filter(filteredMoney => filteredMoney.banknots === 'Dollar');
+    let [title, setTitle] = useState('')
+    console.log(title)
+    const addMessage=(title:string)=>{
+        let newMessage= {message: title};
+        setMessage([newMessage,...message])
     }
-    if (filter==='Rubl'){
-        currentMoney = money.filter(filteredMoney => filteredMoney.banknots === 'Rubl');
-    }
-    const onClickFilterHandler = (nameButton: FiltereType) => {
-        setFilter(nameButton)
+    const callBackButtonHandler=()=>{
+        addMessage(title)
+        setTitle('')
     }
     return (
-        <>
-            <NewComponent money={currentMoney} onClickFilterHandler={onClickFilterHandler}/>
-        </>
+        <div className={'App'}>
+            <Input setTitle={setTitle} title={title}/>
+            <Button name={'+'} callBack={callBackButtonHandler}/>
+            {message.map((el, index)=>{
+                return(
+                    <div key={index}>{el.message}</div>
+                )
+            })}
+        </div>
     );
 };
 
